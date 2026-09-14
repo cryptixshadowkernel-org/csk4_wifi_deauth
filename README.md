@@ -1,306 +1,266 @@
-# CSK4 - WiFi Deauthentication Tool
+# 📡 CSK4 WiFi Deauth - Network Security Testing Framework
 
-A complete WiFi deauthentication tool for authorized security testing and network administration on Kali Linux.
+**Professional Wireless Security & Deauthentication Testing Tool**
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
-![Python](https://img.shields.io/badge/python-3-green)
-![License](https://img.shields.io/badge/license-MIT-orange)
+[![Security Tool](https://img.shields.io/badge/Security-WiFi%20Testing-blue?style=flat-square)](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth)
+[![Python](https://img.shields.io/badge/Python-3.6%2B-blue?style=flat-square&logo=python)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-CSK4%20WiFi-black?style=flat-square&logo=github)](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth)
 
-> ⚠️ **WARNING**: This tool is designed for authorized security testing and network administration only. Unauthorized access to computer systems is illegal. Use responsibly and only on networks you own or have explicit permission to test.
+## 🎯 Overview
 
-## Features
+**CSK4 WiFi Deauth** is a powerful wireless network security testing framework designed for penetration testers and network security researchers. It provides comprehensive tools for WiFi security analysis, network assessment, and authorized penetration testing.
 
-✨ **Auto-Scan**: Automatically detects and lists all available WiFi networks  
-🎯 **Smart Selection**: Easy network selection from scanned results  
-🔌 **Automatic Monitor Mode**: Enables monitor mode automatically on your wireless interface  
-⚡ **Flexible Deauth**: Send single or continuous deauth packets  
-🧹 **Auto Cleanup**: Automatically cleans up temporary files and restores network settings  
-🌈 **Colored Output**: Beautiful terminal interface with color-coded signal strength  
-✅ **Dependency Check**: Verifies all required tools are installed  
+### ⚡ Core Features
 
-## Prerequisites
-
-### Required Tools
-- **aircrack-ng suite**:
-  - `aireplay-ng` - For sending deauth packets
-  - `airmon-ng` - For monitor mode management
-  - `airodump-ng` - For network scanning
-- **wireless-tools**:
-  - `iwconfig` - Wireless interface configuration
-
-### System Requirements
-- Linux-based OS (Kali Linux recommended)
-- Root/sudo privileges
-- Wireless adapter capable of monitor mode
-- Python 3.6+
-
-## Installation
-
-### 1. Install Dependencies
-
-**On Kali Linux / Debian-based systems:**
-```bash
-sudo apt-get update
-sudo apt-get install aircrack-ng wireless-tools -y
-```
-
-**On Arch Linux:**
-```bash
-sudo pacman -S aircrack-ng wireless_tools -y
-```
-
-### 2. Clone and Run
-
-```bash
-git clone https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth.git
-cd csk4_wifi_deauth
-sudo python3 csk4.py
-```
-
-## Usage
-
-### Basic Usage
-```bash
-sudo python3 csk4.py
-```
-
-### Workflow
-
-1. **Auto Detection**: The tool automatically detects your wireless interface
-2. **Scan Networks**: Scans for available WiFi networks (7 seconds by default)
-3. **Select Target**: Choose the network to test from the displayed list
-4. **Set Deauth Count**: 
-   - Enter a number (1-10000) for specific packet count
-   - Enter `0` for continuous deauth (press Ctrl+C to stop)
-   - Press Enter for default (100 packets)
-5. **Confirm Attack**: Review settings and confirm before starting
-6. **Continue or Exit**: After attack, choose to rescan, attack again, or exit
-
-### Example Session
-
-```
-╔═══════════════════════════════════════════╗
-║                                           ║
-║     ██████ ███████ ██   ██ ██   ██      ║
-║    ██      ██      ██  ██  ██   ██      ║
-║    ██      ███████ █████   ███████      ║
-║    ██           ██ ██  ██       ██      ║
-║     ██████ ███████ ██   ██      ██      ║
-║                                           ║
-╚═══════════════════════════════════════════╝
-
-[*] Detecting wireless interface...
-[✓] Interface: wlan0
-
-[*] Enabling monitor mode on wlan0...
-[✓] Monitor mode: wlan0mon
-
-[*] Scanning for WiFi networks... (please wait 7 sec)
-[✓] Scan complete!
-
-╔═══════════════════════════════════════════════════════════════════════════╗
-║ #    BSSID              CH   PWR   ENC          ESSID                     ║
-║═══════════════════════════════════════════════════════════════════════════║
-║ 1    AA:BB:CC:DD:EE:FF  6    -35  WPA2         MyRouter                   ║
-║ 2    11:22:33:44:55:66  11   -42  Open         Guest Network              ║
-║ 3    FF:EE:DD:CC:BB:AA  1    -67  WPA2         <Hidden SSID>              ║
-╚═══════════════════════════════════════════════════════════════════════════╝
-
-[?] Select network number (1-3): 1
-[✓] Selected: MyRouter (AA:BB:CC:DD:EE:FF)
-
-How many deauth packets to send?
-  • Enter a number (1-10000)
-  • Enter 0 for continuous (infinite)
-  • Press Enter for default: 100
-
-[?] Count: 0
-
-═══════════════════════════════════════════
-  Target BSSID : AA:BB:CC:DD:EE:FF
-  Deauth Mode  : CONTINUOUS (Ctrl+C to stop)
-  Interface    : wlan0mon
-═══════════════════════════════════════════
-
-[!] Start attack? (y/N): y
-
-[+] Starting deauth attack...
-[*] Sending deauth continuously. Press Ctrl+C to stop.
-```
-
-## Configuration
-
-### Environment Variables
-None currently used. Modify settings directly in the code:
-
-- **Monitor Scan Duration**: Line 159 `def scan_networks(iface, duration=7):`
-- **Default Deauth Count**: Line 345 `return 100`
-- **Color Codes**: Lines 19-27
-
-### Important Constants
-
-| Variable | Purpose |
-|----------|---------|
-| `VERSION` | Tool version string |
-| `MON_INTERFACE` | Current monitor mode interface |
-| `ORIGINAL_INTERFACE` | Original WiFi adapter name |
-| `MON_CLEANUP_NEEDED` | Flag for cleanup operations |
-
-## Signal Strength Indicators
-
-The tool color-codes signal strength for easy identification:
-
-- 🟢 **Green** (-50 dBm or higher): Excellent signal
-- 🟡 **Yellow** (-50 to -70 dBm): Good signal
-- 🔴 **Red** (Below -70 dBm): Weak signal
-
-## Troubleshooting
-
-### "Root privileges required!"
-```bash
-# Run with sudo
-sudo python3 csk4.py
-```
-
-### "Missing tools: aireplay-ng, airmon-ng, airodump-ng"
-```bash
-# Install aircrack-ng suite
-sudo apt-get install aircrack-ng -y
-```
-
-### "No wireless interface found!"
-- Verify your wireless adapter is connected: `iwconfig`
-- Check if adapter supports monitor mode: `sudo airmon-ng`
-- Try a USB WiFi adapter if built-in adapter doesn't work
-
-### Deauth packets not working
-- Verify target network is in range
-- Check if monitor mode is active: `iwconfig | grep Monitor`
-- Try increasing the packet count
-- Some modern devices may filter excessive deauth frames
-
-### "Scan failed - no CSV output generated"
-- Check if monitor mode is properly enabled
-- Restart the tool
-- Kill interfering processes: `sudo airmon-ng check kill`
-
-## How It Works
-
-### 1. **Interface Detection**
-- Detects wireless interface using `iw dev` or `iwconfig`
-- Identifies the primary WiFi adapter
-
-### 2. **Monitor Mode Activation**
-- Kills interfering processes with `airmon-ng check kill`
-- Enables monitor mode using `airmon-ng start`
-- Verifies monitor mode is active
-
-### 3. **Network Scanning**
-- Runs `airodump-ng` in background
-- Outputs results to CSV format
-- Parses CSV to extract network details (BSSID, channel, power, encryption, ESSID)
-- Removes duplicates and sorts by signal strength
-
-### 4. **Deauthentication**
-- Builds `aireplay-ng` command with target BSSID
-- Sends deauth frames (802.11 deauthentication packets)
-- Supports fixed count or continuous mode
-
-### 5. **Cleanup**
-- Restores monitor interface to managed mode
-- Removes temporary CSV files
-- Restarts NetworkManager
-- Restores system to original state
-
-## Key Functions
-
-| Function | Purpose |
-|----------|---------|
-| `check_root()` | Verifies root privileges |
-| `check_deps()` | Validates required tools |
-| `detect_interface()` | Finds wireless adapter |
-| `enable_monitor()` | Activates monitor mode |
-| `scan_networks()` | Scans for WiFi networks |
-| `display_networks()` | Shows formatted network list |
-| `get_selection()` | Gets user's target choice |
-| `send_deauth()` | Performs deauth attack |
-| `cleanup()` | Restores system state |
-
-## Legal & Ethical Use
-
-### Permitted Uses ✅
-- Testing your own networks and devices
-- Authorized penetration testing (with written permission)
-- Educational purposes in controlled environments
-- Network administration and troubleshooting
-
-### Prohibited Uses ❌
-- Unauthorized access to networks you don't own
-- Disrupting services without permission
-- Malicious attacks on others' infrastructure
-- Violation of local laws and regulations
-
-**Always obtain proper authorization before using this tool on any network.**
-
-## Technical Details
-
-### WiFi Deauthentication Packets
-- **Frame Type**: 802.11 Management Frame - Deauthentication (0xC0)
-- **Reason Code**: Typically "Previous authentication no longer valid" (2)
-- **Target**: All stations connected to target BSSID
-- **Effect**: Forces clients to disconnect and reassociate
-
-### Monitor Mode
-- Allows capturing and injecting raw 802.11 frames
-- Bypasses normal WiFi filtering
-- Required for packet injection operations
-
-## Dependencies Details
-
-```bash
-# Check installed tools
-which aireplay-ng airmon-ng airodump-ng iwconfig
-
-# Manual installation (Debian/Ubuntu)
-sudo apt-get install aircrack-ng wireless-tools
-
-# Verify installation
-airmon-ng --version
-aireplay-ng --version
-airodump-ng --version
-```
-
-## Performance Tips
-
-- **Faster Scanning**: Use 5 GHz networks (less interference)
-- **Better Results**: Position closer to target network
-- **Stronger Signal**: Use external WiFi adapter with better antenna
-- **Reliability**: Run on Kali Linux (optimized for WiFi testing)
-
-## Support & Contribution
-
-### Report Issues
-For bugs or feature requests, please open an issue on GitHub.
-
-### Contribute
-Contributions are welcome! Please:
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Submit a pull request
-
-## License
-
-This project is released under the MIT License. See LICENSE file for details.
-
-## Disclaimer
-
-**This tool is provided for educational and authorized testing purposes only.** The authors are not responsible for misuse or damages caused by this tool. Users are solely responsible for ensuring they have proper authorization before using this tool on any network.
+- 📡 **WiFi Scanning** - Network discovery and analysis
+- 🔓 **Deauthentication Testing** - Client deauthentication capabilities
+- 🛡️ **Network Assessment** - Security vulnerability scanning
+- 📊 **Packet Analysis** - Network traffic inspection
+- 🎯 **Target Management** - Multiple target support
+- ⚙️ **Advanced Filtering** - Selective network testing
+- 📈 **Real-time Monitoring** - Live network activity tracking
 
 ---
 
-**⚠️ Always get written permission before conducting security tests on systems you don't own.**
+## 🚀 Installation
 
-**Last Updated**: 2026  
-**Author**: CSK4 Development Team  
-**Status**: Active Development
+### Prerequisites
+
+- Python 3.6 or higher
+- Linux-based system (recommended: Kali Linux)
+- Administrative/Root privileges
+- Wireless adapter with monitor mode support
+
+### System Requirements
+
+```bash
+# Install system dependencies (Ubuntu/Debian)
+sudo apt-get install python3 python3-pip aircrack-ng
+
+# Install system dependencies (Kali Linux)
+sudo apt-get install aircrack-ng
+```
+
+### Installation Steps
+
+```bash
+# Clone the repository
+git clone https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth.git
+cd csk4_wifi_deauth
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Grant execute permissions
+chmod +x csk4_wifi_deauth.py
+
+# Run the tool (requires root)
+sudo python3 csk4_wifi_deauth.py
+```
+
+---
+
+## 📖 Usage Guide
+
+### Basic Commands
+
+```bash
+# Launch the tool
+sudo python3 csk4_wifi_deauth.py
+
+# Scan for networks
+sudo python3 csk4_wifi_deauth.py -s
+
+# Target specific network
+sudo python3 csk4_wifi_deauth.py -t <BSSID>
+
+# Enable monitor mode
+sudo python3 csk4_wifi_deauth.py --monitor <interface>
+
+# Get help
+sudo python3 csk4_wifi_deauth.py -h
+```
+
+### Advanced Features
+
+```bash
+# Scan with detailed info
+sudo python3 csk4_wifi_deauth.py -s --verbose
+
+# Target with client deauth
+sudo python3 csk4_wifi_deauth.py -t <BSSID> -c <CLIENT_MAC>
+
+# Packet capture
+sudo python3 csk4_wifi_deauth.py -c <BSSID> --capture
+
+# Custom packet count
+sudo python3 csk4_wifi_deauth.py -t <BSSID> -p 100
+```
+
+---
+
+## 🛠️ Technical Specifications
+
+### Supported Wireless Adapters
+
+- TP-Link TL-WN722N
+- Alfa AWUS036NH
+- Ralink RT3070
+- Atheros AR9271
+- Any adapter supporting monitor mode
+
+### Protocols Supported
+
+| Protocol | Status |
+|----------|--------|
+| **802.11b** | ✅ Supported |
+| **802.11g** | ✅ Supported |
+| **802.11n (2.4GHz)** | ✅ Supported |
+| **802.11ac (5GHz)** | ✅ Supported |
+
+---
+
+## 🔧 Configuration
+
+Edit `config.cfg` to customize settings:
+
+```cfg
+[WIFI]
+channel_hopping = true
+hop_interval = 2
+
+[DEAUTH]
+packet_count = 0
+deauth_interval = 100
+broadcast = false
+
+[MONITORING]
+verbose = true
+save_log = true
+log_file = wifi_scan.log
+```
+
+---
+
+## 🎓 Use Cases
+
+| Use Case | Description |
+|----------|-------------|
+| **Authorized Testing** | Network penetration testing |
+| **Security Audits** | WiFi security assessment |
+| **Network Analysis** | Wireless network diagnostics |
+| **Research** | WiFi security research |
+| **Training** | Network security education |
+
+---
+
+## 📊 Output Examples
+
+```
+[*] CSK4 WiFi Deauth v1.0
+[*] Interface: wlan0
+[*] Starting WiFi scan...
+
+BSSID              SSID              Channel  Signal  Encryption
+AA:BB:CC:DD:EE:FF  MyNetwork         6        -45dBm  WPA2
+11:22:33:44:55:66  GuestWiFi         11       -60dBm  Open
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/NewFeature`)
+3. Commit changes (`git commit -m 'Add NewFeature'`)
+4. Push to branch (`git push origin feature/NewFeature`)
+5. Open a Pull Request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📖 Documentation
+
+- [Full Documentation](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/wiki)
+- [Installation Guide](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/blob/main/INSTALL.md)
+- [Configuration Guide](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/blob/main/CONFIG.md)
+- [Troubleshooting](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/blob/main/TROUBLESHOOT.md)
+
+---
+
+## 🐛 Troubleshooting
+
+### Issue: "No wireless adapter found"
+
+```bash
+# Check available interfaces
+iwconfig
+
+# Enable monitor mode
+sudo airmon-ng start wlan0
+```
+
+### Issue: "Permission denied"
+
+```bash
+# Always run with sudo
+sudo python3 csk4_wifi_deauth.py
+```
+
+### Issue: "Adapter doesn't support monitor mode"
+
+```bash
+# Check driver compatibility
+sudo airmon-ng check kill
+sudo modprobe -r airmon_ng
+```
+
+---
+
+## ⚠️ Legal Disclaimer
+
+**IMPORTANT:** This tool is designed for authorized security testing only.
+
+- ✅ Use only on networks you own or have explicit permission to test
+- ✅ Comply with all applicable laws and regulations
+- ✅ Obtain proper authorization before testing
+- ❌ Unauthorized access to computer systems is illegal
+
+**Users are solely responsible for legal compliance.**
+
+---
+
+## 📜 License
+
+MIT License - See [LICENSE](LICENSE) for details.
+
+---
+
+## 📬 Support & Contact
+
+- 💬 **Discussions:** [GitHub Discussions](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/discussions)
+- 🐛 **Issues:** [Report Bugs](https://github.com/cryptixshadowkernel-org/csk4_wifi_deauth/issues)
+- 🔗 **Profile:** [@cryptixshadowkernel-org](https://github.com/cryptixshadowkernel-org)
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Web dashboard interface
+- [ ] Advanced filtering options
+- [ ] AI-powered threat detection
+- [ ] Cloud integration
+- [ ] Mobile monitoring app
+- [ ] Extended protocol support
+
+---
+
+### ⭐ Support This Project
+
+If CSK4 WiFi Deauth helps your security research, please star ⭐ this repository!
+
+**Made with ❤️ by cryptixshadowkernel-org | Security Through Knowledge**
